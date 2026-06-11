@@ -4,10 +4,20 @@ import (
 	"database/sql"
 	"go-rest-api/config"
 	"go-rest-api/models"
+	"strings"
+	
 )
 
-func GetProducts() ([]models.Product, error) {
-	rows, err := config.DB.Query("SELECT id, name, price, stock FROM products")
+func GetProducts(limit int, offset int, search string, sort string, order string) ([]models.Product, error){
+	query := "SELECT id, name, price, stock FROM products WHERE name LIKE ? ORDER BY " + sort + " " + order + " LIMIT ? OFFSET ?"
+
+	rows, err := config.DB.Query(
+		query,
+		"%"+search+"%",
+		limit,
+		offset,
+	)
+	
 	if err != nil {
 		return nil, err
 	}
@@ -25,6 +35,7 @@ func GetProducts() ([]models.Product, error) {
 
 		products = append(products, product)
 	}
+
 
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -107,4 +118,11 @@ func DeleteProduct(id int) error {
 		return sql.ErrNoRows
 	}
 	return nil
+}
+
+func containsIgnoreCase (text, search string) bool {
+	return strings.Contains (
+		strings.ToLower (text),
+		strings.ToLower (search),
+	)
 }

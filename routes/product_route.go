@@ -7,11 +7,19 @@ import (
 )
 
 func ProductRoutes(r *gin.Engine) {
+
 	protected := r.Group("/")
 	protected.Use(middlewares.AuthMiddleware())
 
+	// semua user bisa GET
 	protected.GET("/products", handlers.GetProducts)
 	protected.GET("/products/:id", handlers.GetProductByID)
-	protected.PUT("/products/:id", handlers.UpdateProduct)
-	protected.DELETE("/products/:id", handlers.DeleteProduct)
+
+	// hanya admin yang bisa POST, PUT, DELETE
+	admin := protected.Group("/")
+	admin.Use(middlewares.AdminMiddleware())
+
+	admin.POST("/products", handlers.CreateProduct)
+	admin.PUT("/products/:id", handlers.UpdateProduct)
+	admin.DELETE("/products/:id", handlers.DeleteProduct)
 }

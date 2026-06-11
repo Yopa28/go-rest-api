@@ -27,12 +27,17 @@ func CreateUser(user *models.User) error {
 
 func GetUserByEmail(email string) (*models.User, error) {
 	var user models.User
-	err := config.DB.QueryRow("SELECT id, name, email, password FROM users WHERE email = ?", email).Scan(
-		&user.ID,
-		&user.Name,
-		&user.Email,
-		&user.Password,
-	)
+	err := config.DB.QueryRow(
+    "SELECT id, name, email, password, role FROM users WHERE email = ?",
+    email,
+	).Scan(
+    &user.ID,
+    &user.Name,
+    &user.Email,
+    &user.Password,
+    &user.Role,
+)
+	
 	if err != nil {
 		return &models.User{}, err
 	}

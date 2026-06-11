@@ -9,7 +9,35 @@ import (
 )
 
 func GetProducts(c *gin.Context) {
-	products, err := repositories.GetProducts()
+	page, err := strconv.Atoi(c.DefaultQuery("page", "1"))
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	limit, err := strconv.Atoi(c.DefaultQuery("limit", "10"))
+	if err != nil || limit < 1 {
+		limit = 10
+	}
+
+	offset := (page - 1) * limit
+
+	search := c.DefaultQuery("search", "")
+	sort := c.DefaultQuery ("sort", "id")
+	order := c.DefaultQuery ("order","asc")
+
+	products, err := repositories.GetProducts(
+	limit, offset, search, sort, order)
+	
+		allowedSorts := map[string]bool{
+		"id" : true,
+		"name" : true,
+		"price" : true,
+		"stock" : true,
+	}
+	if !allowedSorts [sort]{
+		sort = "id"
+	}
+
 	if err != nil {
 		c.JSON(500, gin.H{
 			"message": "Failed to retrieve products",
@@ -19,9 +47,13 @@ func GetProducts(c *gin.Context) {
 
 	c.JSON(200, gin.H{
 		"message": "Products retrieved successfully",
+		"page":    page,
+		"limit":   limit,
 		"data":    products,
 	})
 }
+
+
 func GetProductByID(c *gin.Context) {
 	idParam := c.Param("id")
 

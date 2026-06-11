@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
+	
 )
 
 func Register(c *gin.Context) {
@@ -120,8 +121,10 @@ func Login(c *gin.Context) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": user.ID,
 		"email":   user.Email,
+		"role" :  user.Role,
 		"exp":     time.Now().Add(time.Hour * 24).Unix(),
 	})
+	
 
 	secretKey := os.Getenv("JWT_SECRET")
 
@@ -133,6 +136,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
+
 	c.JSON(200, gin.H{
 		"message": "Login successfully",
 		"token":   tokenString,
@@ -140,6 +144,7 @@ func Login(c *gin.Context) {
 			"id":    user.ID,
 			"name":  user.Name,
 			"email": user.Email,
+			"role" : user.Role,	
 		},
 	})
 }
@@ -156,3 +161,4 @@ func Profile(c *gin.Context) {
 		},
 	})
 }
+
