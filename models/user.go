@@ -7,3 +7,9 @@ type User struct {
 	Password string `json:"password"`
 	Role	 string `json:"role"` // admin atau user 
 }
+
+
+type LoginRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}

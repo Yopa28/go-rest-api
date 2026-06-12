@@ -8,6 +8,19 @@ import (
 	"strconv"
 )
 
+// GetProducts godoc
+// @Summary Get all products
+// @Description Get products with pagination, search and sorting
+// @Tags Products
+// @Produce json
+// @Param page query int false "Page Number"
+// @Param limit query int false "Items Per Page"
+// @Param search query string false "Search Product Name"
+// @Param sort query string false "Sort Field (id,name,price,stock)"
+// @Param order query string false "Sort Order (asc,desc)"
+// @Success 200 {object} map[string]interface{}
+// @Security BearerAuth
+// @Router /products [get]
 func GetProducts(c *gin.Context) {
 	page, err := strconv.Atoi(c.DefaultQuery("page", "1"))
 	if err != nil || page < 1 {
@@ -54,6 +67,15 @@ func GetProducts(c *gin.Context) {
 }
 
 
+// GetProductByID godoc
+// @Summary Get product by ID
+// @Description Retrieve a single product by its ID
+// @Tags Products
+// @Produce json
+// @Param id path int true "Product ID"
+// @Success 200 {object} map[string]interface{}
+// @Security BearerAuth
+// @Router /products/{id} [get]
 func GetProductByID(c *gin.Context) {
 	idParam := c.Param("id")
 
@@ -85,6 +107,19 @@ func GetProductByID(c *gin.Context) {
 	})
 }
 
+// CreateProduct godoc
+// @Summary Create Product
+// @Description Create a new product (Admin Only)
+// @Tags Products
+// @Accept json
+// @Produce json
+// @Param product body models.Product true "Product Data"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 401 {object} map[string]interface{}
+// @Failure 403 {object} map[string]interface{}
+// @Security BearerAuth
+// @Router /products [post]
 func CreateProduct(c *gin.Context) {
 	var newProduct models.Product
 
@@ -132,6 +167,17 @@ func CreateProduct(c *gin.Context) {
 
 }
 
+// UpdateProduct godoc
+// @Summary Update an existing product
+// @Description Only admin can update product
+// @Tags Products
+// @Accept json
+// @Produce json
+// @Param id path int true "Product ID"
+// @Param product body models.Product true "Updated product data"
+// @Success 200 {object} map[string]interface{}
+// @Security BearerAuth
+// @Router /products/{id} [put]
 func UpdateProduct(c *gin.Context) {
 	idParam := c.Param("id")
 
@@ -197,6 +243,14 @@ func UpdateProduct(c *gin.Context) {
 	})
 }
 
+// DeleteProduct godoc
+// @Summary Delete a product
+// @Description Only admin can delete product
+// @Tags Products
+// @Param id path int true "Product ID"
+// @Success 200 {object} map[string]interface{}
+// @Security BearerAuth
+// @Router /products/{id} [delete]
 func DeleteProduct(c *gin.Context) {
 	idParam := c.Param("id")
 

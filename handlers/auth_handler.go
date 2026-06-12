@@ -14,6 +14,14 @@ import (
 	
 )
 
+// Register godoc
+// @Summary Register user
+// @Description Register new user
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Success 201 {object} map[string]interface{}
+// @Router /register [post]
 func Register(c *gin.Context) {
 	var newUser models.User
 
@@ -79,8 +87,19 @@ func Register(c *gin.Context) {
 	})
 }
 
+// Login godoc
+// @Summary Login user
+// @Description Login and get JWT token
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body models.LoginRequest true "Login Data"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 401 {object} map[string]interface{}
+// @Router /login [post]
 func Login(c *gin.Context) {
-	var loginInput models.User
+	var loginInput models.LoginRequest
 
 	if err := c.ShouldBindJSON(&loginInput); err != nil {
 		c.JSON(400, gin.H{
