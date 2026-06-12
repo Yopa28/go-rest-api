@@ -26,6 +26,10 @@ REST API built with Golang, Gin Framework, MySQL, JWT Authentication, Role-Based
 * Swagger
 * godotenv
 
+## API Documentation Preview
+
+![Swagger](assets/swagger.png)
+
 ## Installation
 
 Clone repository:
