@@ -1,6 +1,6 @@
 # Go REST API
 
-![Swagger](https://raw.githubusercontent.com/sandyyopa/go-rest-api/main/assets/SS.png)
+![Swagger](https://raw.githubusercontent.com/sandyyopa/go-rest-api/main/assets/swagger.png)
 
 REST API built with Golang, Gin Framework, MySQL, JWT Authentication, Role-Based Access Control (RBAC), Pagination, Search, Sorting, and Swagger Documentation.
 
