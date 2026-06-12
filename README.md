@@ -4,6 +4,10 @@
 
 REST API built with Golang, Gin Framework, MySQL, JWT Authentication, Role-Based Access Control (RBAC), Pagination, Search, Sorting, and Swagger Documentation.
 
+## Swagger Preview
+
+![Swagger](assets/swagger.png)
+
 ## Features
 
 - User Registration
